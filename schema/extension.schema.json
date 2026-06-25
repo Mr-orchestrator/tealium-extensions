@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mr-orchestrator/tealium-extensions/schema/extension.schema.json",
+  "title": "Tealium Extension Manifest",
+  "description": "Structured facts declared in each extension's @tealium-extension JSDoc header. Parsed by scripts/lib/manifest.js and validated here so the knowledge base is deterministic.",
+  "type": "object",
+  "required": ["id", "name", "scope", "order", "loadRule", "risk", "file"],
+  "additionalProperties": true,
+  "properties": {
+    "id": { "type": "integer", "minimum": 1 },
+    "name": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "string",
+      "enum": ["Pre Loader", "Before Load Rules", "After Load Rules", "DOM Ready", "After Tags"]
+    },
+    "order": { "type": "integer", "minimum": 1 },
+    "loadRule": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": ["string", "integer"] } }
+      ]
+    },
+    "creates": { "type": "array", "items": { "type": "string" } },
+    "uses": { "type": "array", "items": { "type": "string" } },
+    "protected": { "type": "boolean", "default": false },
+    "risk": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "tagCategory": { "type": "string", "enum": ["Analytics", "Marketing", "Personalization", "Utility"] },
+    "feedsTag": { "type": "string" },
+    "description": { "type": "string" },
+    "file": { "type": "string" }
+  }
+}

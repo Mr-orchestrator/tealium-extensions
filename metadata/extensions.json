@@ -1,0 +1,205 @@
+[
+  {
+    "file": "extensions/00-pre-loader/01-consent-manager.js",
+    "id": 1,
+    "name": "Consent Manager",
+    "scope": "Pre Loader",
+    "order": 1,
+    "loadRule": "all",
+    "creates": [
+      "consent_status",
+      "consent_analytics",
+      "consent_marketing"
+    ],
+    "uses": [
+      "gridbox_data",
+      "tealium_event"
+    ],
+    "protected": true,
+    "risk": "critical",
+    "description": "Reads the visitor consent state BEFORE utag loads and exposes a",
+    "loadRank": 1
+  },
+  {
+    "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js",
+    "id": 10,
+    "name": "Data Layer Enrichment",
+    "scope": "Before Load Rules",
+    "order": 1,
+    "loadRule": "all",
+    "creates": [
+      "cart_total",
+      "cart_item_count",
+      "product_id",
+      "product_name",
+      "product_category",
+      "product_brand",
+      "product_price",
+      "order_id",
+      "order_total",
+      "order_currency",
+      "search_term"
+    ],
+    "uses": [
+      "gridbox_data",
+      "tealium_event"
+    ],
+    "risk": "medium",
+    "description": "Flattens the F1 Racing Store GridBox data layer (gridbox_data ≈ utag_data —",
+    "protected": false,
+    "loadRank": 1001
+  },
+  {
+    "file": "extensions/10-before-load-rules/02-identity-resolver.js",
+    "id": 11,
+    "name": "Identity Resolver",
+    "scope": "Before Load Rules",
+    "order": 2,
+    "loadRule": "all",
+    "creates": [
+      "customer_id",
+      "customer_email",
+      "customer_tier",
+      "visitor_id",
+      "login_status"
+    ],
+    "uses": [
+      "gridbox_data",
+      "tealium_event"
+    ],
+    "protected": true,
+    "risk": "high",
+    "description": "Resolves the authenticated identity from the GridBox user object and",
+    "loadRank": 1002
+  },
+  {
+    "file": "extensions/10-before-load-rules/03-page-data.js",
+    "id": 12,
+    "name": "Page Data",
+    "scope": "Before Load Rules",
+    "order": 3,
+    "loadRule": "all",
+    "creates": [
+      "page_name",
+      "page_type",
+      "page_category",
+      "site_section"
+    ],
+    "uses": [
+      "gridbox_data",
+      "tealium_event"
+    ],
+    "risk": "low",
+    "description": "Derives page-level context (name / type / category / section) for the",
+    "protected": false,
+    "loadRank": 1003
+  },
+  {
+    "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js",
+    "id": 20,
+    "name": "GA4 Ecommerce Mapping",
+    "scope": "After Load Rules",
+    "order": 1,
+    "loadRule": "all",
+    "creates": [
+      "ga4_event_name",
+      "ga4_items",
+      "ga4_value",
+      "ga4_currency",
+      "ga4_user_id"
+    ],
+    "uses": [
+      "consent_analytics",
+      "customer_id",
+      "product_id",
+      "product_name",
+      "product_price",
+      "cart_total",
+      "order_id",
+      "order_total",
+      "order_currency",
+      "tealium_event"
+    ],
+    "tagCategory": "Analytics",
+    "feedsTag": "GA4",
+    "risk": "medium",
+    "description": "Builds GA4 (gtag) recommended ecommerce parameters from the flat UDO.",
+    "protected": false,
+    "loadRank": 2001
+  },
+  {
+    "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js",
+    "id": 21,
+    "name": "Adobe Data Mapping",
+    "scope": "After Load Rules",
+    "order": 2,
+    "loadRule": "all",
+    "creates": [
+      "adobe_events",
+      "adobe_products",
+      "adobe_eVar_email",
+      "adobe_eVar_tier",
+      "adobe_pageName"
+    ],
+    "uses": [
+      "consent_analytics",
+      "customer_email",
+      "customer_tier",
+      "customer_id",
+      "product_id",
+      "product_name",
+      "product_price",
+      "page_name",
+      "order_id",
+      "order_total",
+      "tealium_event"
+    ],
+    "tagCategory": "Analytics",
+    "feedsTag": "AdobeAnalytics",
+    "risk": "medium",
+    "description": "Maps the flat UDO to Adobe Analytics / AEP variables (events, products",
+    "protected": false,
+    "loadRank": 2002
+  },
+  {
+    "file": "extensions/30-dom-ready/01-scroll-click-tracking.js",
+    "id": 30,
+    "name": "Scroll & Click Tracking",
+    "scope": "DOM Ready",
+    "order": 1,
+    "loadRule": "all",
+    "creates": [
+      "scroll_depth",
+      "outbound_link",
+      "cta_clicked"
+    ],
+    "uses": [
+      "page_name",
+      "tealium_event"
+    ],
+    "risk": "low",
+    "description": "Binds DOM interaction listeners once the DOM is ready: scroll-depth",
+    "protected": false,
+    "loadRank": 3001
+  },
+  {
+    "file": "extensions/40-after-tags/01-cleanup-diagnostics.js",
+    "id": 40,
+    "name": "Cleanup & Diagnostics",
+    "scope": "After Tags",
+    "order": 1,
+    "loadRule": "all",
+    "creates": [],
+    "uses": [
+      "consent_status",
+      "customer_id",
+      "ga4_event_name",
+      "adobe_events",
+      "tealium_event"
+    ],
+    "risk": "low",
+    "description": "Runs After all tags have fired: emits a single diagnostic summary (when",
+    "protected": false,
+    "loadRank": 4001
+  }
+]

@@ -1,0 +1,7 @@
+node_modules/
+npm-debug.log*
+impact-report.md
+.env
+.env.local
+coverage/
+.DS_Store

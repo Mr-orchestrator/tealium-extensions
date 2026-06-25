@@ -1,0 +1,69 @@
+name: Tealium Governance CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so the Impact Agent can diff against the base
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint extensions
+        run: npm run lint
+
+      - name: Knowledge Agent — refresh metadata (+ live drift check if creds set)
+        env:
+          TEALIUM_ACCOUNT: ${{ secrets.TEALIUM_ACCOUNT }}
+          TEALIUM_PROFILE: ${{ secrets.TEALIUM_PROFILE }}
+          TEALIUM_API_TOKEN: ${{ secrets.TEALIUM_API_TOKEN }}
+        run: npm run knowledge:pull
+
+      - name: Validation Agent — enforce policy (blocks merge on failure)
+        run: npm run validate
+
+      - name: Impact Agent — analyse blast radius
+        id: impact
+        run: |
+          node scripts/impact-agent.js > impact-report.md
+          cat impact-report.md
+
+      - name: Documentation Agent — verify docs are up to date
+        run: |
+          npm run docs
+          if ! git diff --quiet docs/; then
+            echo "::error::Generated docs are stale. Run 'npm run docs' and commit the result.";
+            git --no-pager diff --stat docs/;
+            exit 1;
+          fi
+
+      - name: Comment impact analysis on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('impact-report.md', 'utf8');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });

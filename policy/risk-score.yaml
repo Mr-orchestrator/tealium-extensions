@@ -1,0 +1,21 @@
+# Risk scoring — the Review/Impact agents use this to label a PR and decide whether
+# architect sign-off is required. Change-type levels and the blast-radius multiplier
+# combine into an overall PR risk.
+risk:
+  # Base level by the kind of change detected in the diff.
+  change_types:
+    low:      ["doc_change", "comment_only", "add_extension"]
+    medium:   ["variable_rename_nonprotected", "extension_edit", "mapping_edit"]
+    high:     ["load_order_change", "remove_extension", "remove_variable"]
+    critical: ["consent_change", "identity_change", "protected_variable_change"]
+
+  # Promote risk when many components depend on the changed item.
+  blast_radius:
+    medium_if_dependents_gte: 2
+    high_if_dependents_gte: 4
+    critical_if_dependents_gte: 8
+
+  # PRs at/above this level require architect approval (CODEOWNERS).
+  require_architect_at: high
+
+  levels_order: ["low", "medium", "high", "critical"]

@@ -1,0 +1,24 @@
+# Consent enforcement — analytics/marketing tags must be gated by consent, and the
+# consent decision must be produced before any tag-feeding extension runs.
+consent:
+  # The extension that produces the consent flags, and where it must live.
+  provider_extension: Consent Manager
+  provider_scope: Pre Loader
+  flags:
+    analytics: consent_analytics
+    marketing: consent_marketing
+
+  # Tag categories that MUST consume a consent flag before producing tag data.
+  require_consent_for:
+    - Analytics
+    - Marketing
+
+  # An extension that feedsTag in a gated category must `uses` the matching consent flag.
+  error_missing_gate: >-
+    Extension '{name}' feeds a {category} tag but does not gate on a consent flag
+    ({flag}). Analytics/Marketing data must not be produced without consent.
+
+  # The consent provider must run before (lower loadRank than) any gated mapping.
+  error_provider_order: >-
+    Consent provider '{provider}' ({provider_scope}) must run before '{name}'
+    ({scope}); otherwise tags can fire ahead of the consent decision.

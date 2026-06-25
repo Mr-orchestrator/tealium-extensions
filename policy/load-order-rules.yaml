@@ -1,0 +1,35 @@
+# Load-order compliance — Tealium runs extensions/tags in scope then order.
+# Scope sequence (earliest first):
+#   Pre Loader -> Before Load Rules -> After Load Rules -> DOM Ready -> After Tags
+load_order:
+  scope_sequence:
+    - Pre Loader
+    - Before Load Rules
+    - After Load Rules
+    - DOM Ready
+    - After Tags
+
+  rules:
+    - id: ORDER-001
+      name: no_backward_dependency
+      description: >-
+        An extension may only `use` a variable that is `created` by an extension
+        with an equal or lower loadRank (same or earlier scope/order). Using a
+        variable produced later means the data is not yet available.
+      error: >-
+        '{name}' ({scope}) uses '{variable}', but '{variable}' is created later by
+        '{producer}' ({producer_scope}). Required data is not initialised yet.
+
+    - id: ORDER-002
+      name: consent_before_tag_data
+      description: >-
+        No extension that feeds an Analytics/Marketing tag may run before the
+        Consent Manager (Pre Loader). Cross-checked with consent-rules.yaml.
+      error: >-
+        '{name}' feeds a tag but runs before the consent provider — tags could
+        fire ahead of the consent decision.
+
+    - id: ORDER-003
+      name: unique_scope_order
+      description: "Two extensions in the same scope must not share the same order."
+      error: "Duplicate order {order} in scope '{scope}': {a} and {b}."

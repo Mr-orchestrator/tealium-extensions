@@ -1,0 +1,16 @@
+{
+  "GA4": {
+    "name": "GA4",
+    "category": "Analytics",
+    "fedBy": [
+      20
+    ]
+  },
+  "AdobeAnalytics": {
+    "name": "AdobeAnalytics",
+    "category": "Analytics",
+    "fedBy": [
+      21
+    ]
+  }
+}

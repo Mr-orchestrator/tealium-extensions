@@ -1,0 +1,13 @@
+# Protected areas require architect review before merge (branch protection enforces
+# that CODEOWNERS-required reviews pass). Replace @f1-architect with the real team handle.
+
+# Policy engine — any rule change needs governance sign-off
+/policy/                                   @f1-architect
+
+# Protected, load-order-critical extensions (consent + identity)
+/extensions/00-pre-loader/                 @f1-architect
+/extensions/10-before-load-rules/02-identity-resolver.js  @f1-architect
+
+# CI/CD and metadata schema
+/.github/                                  @f1-architect
+/schema/                                   @f1-architect

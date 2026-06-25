@@ -1,0 +1,952 @@
+{
+  "consent_status": {
+    "name": "consent_status",
+    "created_by": [
+      {
+        "id": 1,
+        "name": "Consent Manager",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/01-consent-manager.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": null,
+        "id": 40,
+        "name": "Cleanup & Diagnostics",
+        "scope": "After Tags",
+        "file": "extensions/40-after-tags/01-cleanup-diagnostics.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        40
+      ],
+      "tags": []
+    }
+  },
+  "consent_analytics": {
+    "name": "consent_analytics",
+    "created_by": [
+      {
+        "id": 1,
+        "name": "Consent Manager",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/01-consent-manager.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "consent_marketing": {
+    "name": "consent_marketing",
+    "created_by": [
+      {
+        "id": 1,
+        "name": "Consent Manager",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/01-consent-manager.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "gridbox_data": {
+    "name": "gridbox_data",
+    "created_by": [],
+    "used_by": [
+      {
+        "feedsTag": null,
+        "id": 1,
+        "name": "Consent Manager",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/01-consent-manager.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        1,
+        10,
+        11,
+        12
+      ],
+      "tags": []
+    }
+  },
+  "tealium_event": {
+    "name": "tealium_event",
+    "created_by": [],
+    "used_by": [
+      {
+        "feedsTag": null,
+        "id": 1,
+        "name": "Consent Manager",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/01-consent-manager.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      },
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 30,
+        "name": "Scroll & Click Tracking",
+        "scope": "DOM Ready",
+        "file": "extensions/30-dom-ready/01-scroll-click-tracking.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 40,
+        "name": "Cleanup & Diagnostics",
+        "scope": "After Tags",
+        "file": "extensions/40-after-tags/01-cleanup-diagnostics.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        1,
+        10,
+        11,
+        12,
+        20,
+        21,
+        30,
+        40
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "cart_total": {
+    "name": "cart_total",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20
+      ],
+      "tags": [
+        "GA4"
+      ]
+    }
+  },
+  "cart_item_count": {
+    "name": "cart_item_count",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "product_id": {
+    "name": "product_id",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "product_name": {
+    "name": "product_name",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "product_category": {
+    "name": "product_category",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "product_brand": {
+    "name": "product_brand",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "product_price": {
+    "name": "product_price",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "order_id": {
+    "name": "order_id",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "order_total": {
+    "name": "order_total",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "order_currency": {
+    "name": "order_currency",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20
+      ],
+      "tags": [
+        "GA4"
+      ]
+    }
+  },
+  "search_term": {
+    "name": "search_term",
+    "created_by": [
+      {
+        "id": 10,
+        "name": "Data Layer Enrichment",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "customer_id": {
+    "name": "customer_id",
+    "created_by": [
+      {
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      },
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 40,
+        "name": "Cleanup & Diagnostics",
+        "scope": "After Tags",
+        "file": "extensions/40-after-tags/01-cleanup-diagnostics.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20,
+        21,
+        40
+      ],
+      "tags": [
+        "GA4",
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "customer_email": {
+    "name": "customer_email",
+    "created_by": [
+      {
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        21
+      ],
+      "tags": [
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "customer_tier": {
+    "name": "customer_tier",
+    "created_by": [
+      {
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        21
+      ],
+      "tags": [
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "visitor_id": {
+    "name": "visitor_id",
+    "created_by": [
+      {
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "login_status": {
+    "name": "login_status",
+    "created_by": [
+      {
+        "id": 11,
+        "name": "Identity Resolver",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/02-identity-resolver.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "page_name": {
+    "name": "page_name",
+    "created_by": [
+      {
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": "AdobeAnalytics",
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      },
+      {
+        "feedsTag": null,
+        "id": 30,
+        "name": "Scroll & Click Tracking",
+        "scope": "DOM Ready",
+        "file": "extensions/30-dom-ready/01-scroll-click-tracking.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        21,
+        30
+      ],
+      "tags": [
+        "AdobeAnalytics"
+      ]
+    }
+  },
+  "page_type": {
+    "name": "page_type",
+    "created_by": [
+      {
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "page_category": {
+    "name": "page_category",
+    "created_by": [
+      {
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "site_section": {
+    "name": "site_section",
+    "created_by": [
+      {
+        "id": 12,
+        "name": "Page Data",
+        "scope": "Before Load Rules",
+        "file": "extensions/10-before-load-rules/03-page-data.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "ga4_event_name": {
+    "name": "ga4_event_name",
+    "created_by": [
+      {
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": null,
+        "id": 40,
+        "name": "Cleanup & Diagnostics",
+        "scope": "After Tags",
+        "file": "extensions/40-after-tags/01-cleanup-diagnostics.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        40
+      ],
+      "tags": []
+    }
+  },
+  "ga4_items": {
+    "name": "ga4_items",
+    "created_by": [
+      {
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "ga4_value": {
+    "name": "ga4_value",
+    "created_by": [
+      {
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "ga4_currency": {
+    "name": "ga4_currency",
+    "created_by": [
+      {
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "ga4_user_id": {
+    "name": "ga4_user_id",
+    "created_by": [
+      {
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "adobe_events": {
+    "name": "adobe_events",
+    "created_by": [
+      {
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "used_by": [
+      {
+        "feedsTag": null,
+        "id": 40,
+        "name": "Cleanup & Diagnostics",
+        "scope": "After Tags",
+        "file": "extensions/40-after-tags/01-cleanup-diagnostics.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        40
+      ],
+      "tags": []
+    }
+  },
+  "adobe_products": {
+    "name": "adobe_products",
+    "created_by": [
+      {
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "adobe_eVar_email": {
+    "name": "adobe_eVar_email",
+    "created_by": [
+      {
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "adobe_eVar_tier": {
+    "name": "adobe_eVar_tier",
+    "created_by": [
+      {
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "adobe_pageName": {
+    "name": "adobe_pageName",
+    "created_by": [
+      {
+        "id": 21,
+        "name": "Adobe Data Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "scroll_depth": {
+    "name": "scroll_depth",
+    "created_by": [
+      {
+        "id": 30,
+        "name": "Scroll & Click Tracking",
+        "scope": "DOM Ready",
+        "file": "extensions/30-dom-ready/01-scroll-click-tracking.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "outbound_link": {
+    "name": "outbound_link",
+    "created_by": [
+      {
+        "id": 30,
+        "name": "Scroll & Click Tracking",
+        "scope": "DOM Ready",
+        "file": "extensions/30-dom-ready/01-scroll-click-tracking.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  },
+  "cta_clicked": {
+    "name": "cta_clicked",
+    "created_by": [
+      {
+        "id": 30,
+        "name": "Scroll & Click Tracking",
+        "scope": "DOM Ready",
+        "file": "extensions/30-dom-ready/01-scroll-click-tracking.js"
+      }
+    ],
+    "used_by": [],
+    "usedIn": {
+      "extensions": [],
+      "tags": []
+    }
+  }
+}

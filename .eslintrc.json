@@ -1,0 +1,33 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "script"
+  },
+  "globals": {
+    "utag": "readonly",
+    "utag_data": "writable",
+    "b": "writable",
+    "a": "readonly",
+    "window": "readonly",
+    "document": "readonly",
+    "gridbox": "readonly"
+  },
+  "rules": {
+    "no-undef": "error",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^(a|b|u)$" }],
+    "no-console": "off",
+    "eqeqeq": ["warn", "smart"]
+  },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.js", "tests/**/*.js"],
+      "env": { "node": true, "browser": false, "jest": true },
+      "parserOptions": { "sourceType": "script" }
+    }
+  ]
+}

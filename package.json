@@ -1,0 +1,29 @@
+{
+  "name": "tealium-extensions",
+  "version": "0.1.0",
+  "description": "Governed Tealium iQ implementation for the F1 Racing Store — load-order extensions + policy engine + AI agents + CI/CD",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "build:metadata": "node scripts/build-metadata.js",
+    "validate": "node scripts/validation-agent.js",
+    "impact": "node scripts/impact-agent.js",
+    "docs": "node scripts/doc-agent.js",
+    "knowledge:pull": "node scripts/knowledge-agent.js",
+    "lint": "eslint extensions/**/*.js scripts/**/*.js",
+    "test": "jest",
+    "ci": "npm run lint && npm run build:metadata && npm run validate && npm run docs"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "fast-glob": "^3.3.2",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

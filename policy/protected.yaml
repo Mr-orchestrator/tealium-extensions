@@ -1,0 +1,16 @@
+# Protected components — changing these requires architecture approval (CODEOWNERS).
+# The Validation Agent fails any PR that renames/removes a protected variable or
+# touches a protected extension's identity.
+protected_variables:
+  - tealium_event      # Tealium system event variable — never rename/remove
+  - customer_id        # canonical person key — feeds GA4 + Adobe + downstream stitching
+  - customer_email     # PII person key — used by Adobe mapping & identity stitching
+  - visitor_id         # persistent anonymous id
+
+protected_extensions:
+  - Consent Manager    # consent gate — must remain first in Pre Loader
+  - Identity Resolver  # produces the protected person keys
+
+error_template: >-
+  '{name}' is protected ({reason}). Changes require architect approval and an
+  impact analysis. See policy/protected.yaml.
