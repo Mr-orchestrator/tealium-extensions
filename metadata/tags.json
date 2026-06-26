@@ -12,5 +12,12 @@
     "fedBy": [
       21
     ]
+  },
+  "MetaPixel": {
+    "name": "MetaPixel",
+    "category": "Marketing",
+    "fedBy": [
+      22
+    ]
   }
 }

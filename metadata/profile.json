@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-06-25T11:21:36.963Z",
+  "generatedAt": "2026-06-26T08:25:57.156Z",
   "source": "local-manifest",
   "counts": {
-    "extensions": 8,
-    "variables": 38,
-    "tags": 2
+    "extensions": 10,
+    "variables": 45,
+    "tags": 3
   },
   "extensions": [
     {
@@ -27,6 +27,27 @@
       "risk": "critical",
       "description": "Reads the visitor consent state BEFORE utag loads and exposes a",
       "loadRank": 1
+    },
+    {
+      "file": "extensions/00-pre-loader/02-datalayer-bridge.js",
+      "id": 2,
+      "name": "GridBox Data Layer Bridge",
+      "scope": "Pre Loader",
+      "order": 2,
+      "loadRule": "all",
+      "creates": [
+        "page_url",
+        "referrer",
+        "browser_language"
+      ],
+      "uses": [
+        "gridbox_data",
+        "tealium_event"
+      ],
+      "risk": "medium",
+      "description": "Bridges the F1 Racing Store GridBox / adobeDataLayer into the Tealium UDO",
+      "protected": false,
+      "loadRank": 2
     },
     {
       "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js",
@@ -170,6 +191,34 @@
       "loadRank": 2002
     },
     {
+      "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js",
+      "id": 22,
+      "name": "Meta Pixel Mapping",
+      "scope": "After Load Rules",
+      "order": 3,
+      "loadRule": "all",
+      "creates": [
+        "meta_event_name",
+        "meta_content_ids",
+        "meta_value",
+        "meta_currency"
+      ],
+      "uses": [
+        "consent_marketing",
+        "product_id",
+        "product_price",
+        "order_total",
+        "order_currency",
+        "tealium_event"
+      ],
+      "tagCategory": "Marketing",
+      "feedsTag": "MetaPixel",
+      "risk": "medium",
+      "description": "Maps the flat UDO to Meta (Facebook) Pixel standard events. GATED on",
+      "protected": false,
+      "loadRank": 2003
+    },
+    {
       "file": "extensions/30-dom-ready/01-scroll-click-tracking.js",
       "id": 30,
       "name": "Scroll & Click Tracking",
@@ -285,10 +334,22 @@
           "file": "extensions/00-pre-loader/01-consent-manager.js"
         }
       ],
-      "used_by": [],
+      "used_by": [
+        {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        }
+      ],
       "usedIn": {
-        "extensions": [],
-        "tags": []
+        "extensions": [
+          22
+        ],
+        "tags": [
+          "MetaPixel"
+        ]
       }
     },
     "gridbox_data": {
@@ -301,6 +362,13 @@
           "name": "Consent Manager",
           "scope": "Pre Loader",
           "file": "extensions/00-pre-loader/01-consent-manager.js"
+        },
+        {
+          "feedsTag": null,
+          "id": 2,
+          "name": "GridBox Data Layer Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/02-datalayer-bridge.js"
         },
         {
           "feedsTag": null,
@@ -327,6 +395,7 @@
       "usedIn": {
         "extensions": [
           1,
+          2,
           10,
           11,
           12
@@ -344,6 +413,13 @@
           "name": "Consent Manager",
           "scope": "Pre Loader",
           "file": "extensions/00-pre-loader/01-consent-manager.js"
+        },
+        {
+          "feedsTag": null,
+          "id": 2,
+          "name": "GridBox Data Layer Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/02-datalayer-bridge.js"
         },
         {
           "feedsTag": null,
@@ -381,6 +457,13 @@
           "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
         },
         {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        },
+        {
           "feedsTag": null,
           "id": 30,
           "name": "Scroll & Click Tracking",
@@ -398,18 +481,69 @@
       "usedIn": {
         "extensions": [
           1,
+          2,
           10,
           11,
           12,
           20,
           21,
+          22,
           30,
           40
         ],
         "tags": [
           "GA4",
-          "AdobeAnalytics"
+          "AdobeAnalytics",
+          "MetaPixel"
         ]
+      }
+    },
+    "page_url": {
+      "name": "page_url",
+      "created_by": [
+        {
+          "id": 2,
+          "name": "GridBox Data Layer Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/02-datalayer-bridge.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
+    "referrer": {
+      "name": "referrer",
+      "created_by": [
+        {
+          "id": 2,
+          "name": "GridBox Data Layer Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/02-datalayer-bridge.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
+    "browser_language": {
+      "name": "browser_language",
+      "created_by": [
+        {
+          "id": 2,
+          "name": "GridBox Data Layer Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/02-datalayer-bridge.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
       }
     },
     "cart_total": {
@@ -480,16 +614,25 @@
           "name": "Adobe Data Mapping",
           "scope": "After Load Rules",
           "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+        },
+        {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
         }
       ],
       "usedIn": {
         "extensions": [
           20,
-          21
+          21,
+          22
         ],
         "tags": [
           "GA4",
-          "AdobeAnalytics"
+          "AdobeAnalytics",
+          "MetaPixel"
         ]
       }
     },
@@ -586,16 +729,25 @@
           "name": "Adobe Data Mapping",
           "scope": "After Load Rules",
           "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+        },
+        {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
         }
       ],
       "usedIn": {
         "extensions": [
           20,
-          21
+          21,
+          22
         ],
         "tags": [
           "GA4",
-          "AdobeAnalytics"
+          "AdobeAnalytics",
+          "MetaPixel"
         ]
       }
     },
@@ -660,16 +812,25 @@
           "name": "Adobe Data Mapping",
           "scope": "After Load Rules",
           "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js"
+        },
+        {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
         }
       ],
       "usedIn": {
         "extensions": [
           20,
-          21
+          21,
+          22
         ],
         "tags": [
           "GA4",
-          "AdobeAnalytics"
+          "AdobeAnalytics",
+          "MetaPixel"
         ]
       }
     },
@@ -690,14 +851,23 @@
           "name": "GA4 Ecommerce Mapping",
           "scope": "After Load Rules",
           "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+        },
+        {
+          "feedsTag": "MetaPixel",
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
         }
       ],
       "usedIn": {
         "extensions": [
-          20
+          20,
+          22
         ],
         "tags": [
-          "GA4"
+          "GA4",
+          "MetaPixel"
         ]
       }
     },
@@ -1114,6 +1284,70 @@
         "tags": []
       }
     },
+    "meta_event_name": {
+      "name": "meta_event_name",
+      "created_by": [
+        {
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
+    "meta_content_ids": {
+      "name": "meta_content_ids",
+      "created_by": [
+        {
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
+    "meta_value": {
+      "name": "meta_value",
+      "created_by": [
+        {
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
+    "meta_currency": {
+      "name": "meta_currency",
+      "created_by": [
+        {
+          "id": 22,
+          "name": "Meta Pixel Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js"
+        }
+      ],
+      "used_by": [],
+      "usedIn": {
+        "extensions": [],
+        "tags": []
+      }
+    },
     "scroll_depth": {
       "name": "scroll_depth",
       "created_by": [
@@ -1166,11 +1400,13 @@
   "loadRules": {
     "all": [
       1,
+      2,
       10,
       11,
       12,
       20,
       21,
+      22,
       30,
       40
     ]
@@ -1188,6 +1424,13 @@
       "category": "Analytics",
       "fedBy": [
         21
+      ]
+    },
+    "MetaPixel": {
+      "name": "MetaPixel",
+      "category": "Marketing",
+      "fedBy": [
+        22
       ]
     }
   }

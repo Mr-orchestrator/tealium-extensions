@@ -21,6 +21,27 @@
     "loadRank": 1
   },
   {
+    "file": "extensions/00-pre-loader/02-datalayer-bridge.js",
+    "id": 2,
+    "name": "GridBox Data Layer Bridge",
+    "scope": "Pre Loader",
+    "order": 2,
+    "loadRule": "all",
+    "creates": [
+      "page_url",
+      "referrer",
+      "browser_language"
+    ],
+    "uses": [
+      "gridbox_data",
+      "tealium_event"
+    ],
+    "risk": "medium",
+    "description": "Bridges the F1 Racing Store GridBox / adobeDataLayer into the Tealium UDO",
+    "protected": false,
+    "loadRank": 2
+  },
+  {
     "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js",
     "id": 10,
     "name": "Data Layer Enrichment",
@@ -160,6 +181,34 @@
     "description": "Maps the flat UDO to Adobe Analytics / AEP variables (events, products",
     "protected": false,
     "loadRank": 2002
+  },
+  {
+    "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js",
+    "id": 22,
+    "name": "Meta Pixel Mapping",
+    "scope": "After Load Rules",
+    "order": 3,
+    "loadRule": "all",
+    "creates": [
+      "meta_event_name",
+      "meta_content_ids",
+      "meta_value",
+      "meta_currency"
+    ],
+    "uses": [
+      "consent_marketing",
+      "product_id",
+      "product_price",
+      "order_total",
+      "order_currency",
+      "tealium_event"
+    ],
+    "tagCategory": "Marketing",
+    "feedsTag": "MetaPixel",
+    "risk": "medium",
+    "description": "Maps the flat UDO to Meta (Facebook) Pixel standard events. GATED on",
+    "protected": false,
+    "loadRank": 2003
   },
   {
     "file": "extensions/30-dom-ready/01-scroll-click-tracking.js",
