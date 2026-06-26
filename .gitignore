@@ -1,6 +1,7 @@
 node_modules/
 npm-debug.log*
 impact-report.md
+ai-review.md
 .env
 .env.local
 coverage/

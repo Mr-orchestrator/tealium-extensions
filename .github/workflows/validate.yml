@@ -45,6 +45,11 @@ jobs:
           node scripts/impact-agent.js > impact-report.md
           cat impact-report.md
 
+      - name: AI Review Agent — LLM-assisted review (advisory; needs ANTHROPIC_API_KEY)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npm run ai:review
+
       - name: Documentation Agent — verify docs are up to date
         run: |
           npm run docs
@@ -60,8 +65,9 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const body = fs.readFileSync('impact-report.md', 'utf8');
-            await github.rest.issues.createComment({
+            const read = f => fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
+            const body = [read('impact-report.md'), read('ai-review.md')].filter(Boolean).join('\n\n---\n\n');
+            if (body) await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,

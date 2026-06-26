@@ -42,11 +42,35 @@
 - `load-order-rules.yaml` — no backward (later-scope) dependencies; unique scope/order.
 - `risk-score.yaml` — change-type levels + blast-radius promotion + architect threshold.
 
-## GitHub Copilot (org policy)
+## AI agents — how to enable
 
-Copilot may assist writing extension JS but must comply with policy — e.g. it must not
-suggest renaming a protected variable or moving a tag ahead of consent. Configure Copilot at
-the org level (licensed devs, allowed models); CI is the enforcement boundary, not Copilot.
+The four core agents (Knowledge / Validation / Impact / Documentation) are **deterministic**
+Node scripts — they read structured facts and never hallucinate. Two layers add genuine AI:
+
+### 1. AI Review Agent (LLM-assisted PR review) — `scripts/ai-review-agent.js`
+Layers on top of the deterministic agents: it is fed only their structured output
+(violations, impact graph, policy, diff) and asks an LLM for a concise natural-language review,
+posted as a PR comment. **Advisory only — it never blocks** (the Validation Agent blocks).
+
+**Enable it:**
+1. Get an Anthropic API key (https://console.anthropic.com).
+2. Repo → **Settings → Secrets and variables → Actions → New repository secret**:
+   `ANTHROPIC_API_KEY = sk-ant-...`
+3. That's it — the `AI Review Agent` CI step activates on the next PR. Optional: set repo
+   variable `AI_REVIEW_MODEL` (default `claude-sonnet-4-6`).
+Without the secret the agent **no-ops** (prints a "skipped" note) so CI stays green.
+
+Run locally: `ANTHROPIC_API_KEY=sk-ant-... npm run ai:review -- --changed extensions/...`
+
+### 2. GitHub Copilot (authoring + optional auto-review)
+- **Copilot in the IDE:** org admin → **Settings → Copilot** → enable for licensed devs /
+  allowed models. Copilot may assist writing extension JS but must comply with policy (it must
+  not suggest renaming a protected variable or moving a tag ahead of consent). CI is the
+  enforcement boundary, not Copilot.
+- **Copilot code review (optional):** repo → **Settings → Code review** → enable "Request
+  Copilot review automatically" so Copilot also comments on PRs.
+
+The deterministic agents are authoritative; the LLM/Copilot layers are assistive.
 
 ## Connecting Tealium (publish + drift)
 

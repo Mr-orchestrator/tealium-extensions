@@ -71,7 +71,6 @@ function build() {
   });
 
   const profile = {
-    generatedAt: new Date().toISOString(),
     source: 'local-manifest',
     counts: { extensions: extensions.length, variables: Object.keys(variables).length, tags: Object.keys(tags).length },
     extensions, variables, loadRules, tags

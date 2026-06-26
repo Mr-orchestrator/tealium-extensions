@@ -1,0 +1,5 @@
+# Normalize line endings to LF so generated docs/metadata are byte-identical across
+# Windows dev machines and the Linux CI runner (keeps the docs-freshness check stable).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
