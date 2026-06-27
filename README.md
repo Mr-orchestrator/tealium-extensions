@@ -13,7 +13,7 @@ Tealium runs extensions/tags by **scope**, then **order** within scope. Code is 
 |---|---|---|
 | `extensions/00-pre-loader/` | **Pre Loader** | Consent Manager 🔒 |
 | `extensions/10-before-load-rules/` | **Before Load Rules** | Data Layer Enrichment, Identity Resolver 🔒, Page Data |
-| `extensions/20-after-load-rules/` | **After Load Rules** | GA4 Ecommerce Mapping, Adobe Data Mapping |
+| `extensions/20-after-load-rules/` | **After Load Rules** | GA4 Ecommerce Mapping, Meta Pixel Mapping |
 | `extensions/30-dom-ready/` | **DOM Ready** | Scroll & Click Tracking |
 | `extensions/40-after-tags/` | **After Tags** | Cleanup & Diagnostics |
 

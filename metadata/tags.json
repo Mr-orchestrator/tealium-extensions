@@ -6,13 +6,6 @@
       20
     ]
   },
-  "AdobeAnalytics": {
-    "name": "AdobeAnalytics",
-    "category": "Analytics",
-    "fedBy": [
-      21
-    ]
-  },
   "MetaPixel": {
     "name": "MetaPixel",
     "category": "Marketing",

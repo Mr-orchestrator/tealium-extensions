@@ -57,23 +57,6 @@ graph LR
   V_order_currency --> E20
   V_tealium_event --> E20
   E20 --> T_GA4{{"GA4"}}
-  E21(["Adobe Data Mapping"]) --> V_adobe_events["adobe_events"]
-  E21(["Adobe Data Mapping"]) --> V_adobe_products["adobe_products"]
-  E21(["Adobe Data Mapping"]) --> V_adobe_eVar_email["adobe_eVar_email"]
-  E21(["Adobe Data Mapping"]) --> V_adobe_eVar_tier["adobe_eVar_tier"]
-  E21(["Adobe Data Mapping"]) --> V_adobe_pageName["adobe_pageName"]
-  V_consent_analytics --> E21
-  V_customer_email --> E21
-  V_customer_tier --> E21
-  V_customer_id --> E21
-  V_product_id --> E21
-  V_product_name --> E21
-  V_product_price --> E21
-  V_page_name --> E21
-  V_order_id --> E21
-  V_order_total --> E21
-  V_tealium_event --> E21
-  E21 --> T_AdobeAnalytics{{"AdobeAnalytics"}}
   E22(["Meta Pixel Mapping"]) --> V_meta_event_name["meta_event_name"]
   E22(["Meta Pixel Mapping"]) --> V_meta_content_ids["meta_content_ids"]
   E22(["Meta Pixel Mapping"]) --> V_meta_value["meta_value"]
@@ -93,23 +76,20 @@ graph LR
   V_consent_status --> E40
   V_customer_id --> E40
   V_ga4_event_name --> E40
-  V_adobe_events --> E40
+  V_meta_event_name --> E40
   V_tealium_event --> E40
 ```
 
 ## Protected / high-impact variables
 
-- **tealium_event** → feeds tags: GA4, AdobeAnalytics, MetaPixel (used by 10 extension(s))
-- **product_id** → feeds tags: GA4, AdobeAnalytics, MetaPixel (used by 3 extension(s))
-- **product_price** → feeds tags: GA4, AdobeAnalytics, MetaPixel (used by 3 extension(s))
-- **order_total** → feeds tags: GA4, AdobeAnalytics, MetaPixel (used by 3 extension(s))
-- **consent_analytics** → feeds tags: GA4, AdobeAnalytics (used by 2 extension(s))
-- **product_name** → feeds tags: GA4, AdobeAnalytics (used by 2 extension(s))
-- **order_id** → feeds tags: GA4, AdobeAnalytics (used by 2 extension(s))
+- **tealium_event** → feeds tags: GA4, MetaPixel (used by 9 extension(s))
+- **product_id** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
+- **product_price** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
+- **order_total** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
 - **order_currency** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
-- **customer_id** → feeds tags: GA4, AdobeAnalytics (used by 3 extension(s))
+- **consent_analytics** → feeds tags: GA4 (used by 1 extension(s))
 - **consent_marketing** → feeds tags: MetaPixel (used by 1 extension(s))
 - **cart_total** → feeds tags: GA4 (used by 1 extension(s))
-- **customer_email** → feeds tags: AdobeAnalytics (used by 1 extension(s))
-- **customer_tier** → feeds tags: AdobeAnalytics (used by 1 extension(s))
-- **page_name** → feeds tags: AdobeAnalytics (used by 2 extension(s))
+- **product_name** → feeds tags: GA4 (used by 1 extension(s))
+- **order_id** → feeds tags: GA4 (used by 1 extension(s))
+- **customer_id** → feeds tags: GA4 (used by 2 extension(s))

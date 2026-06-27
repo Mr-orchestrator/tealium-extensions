@@ -6,18 +6,18 @@ describe('impact graph', () => {
   const profile = loadMetadata();
   const graph = buildGraph(profile);
 
-  test('identity resolver impacts both analytics tags', () => {
+  test('identity resolver impacts the GA4 mapping + tag', () => {
     const idr = profile.extensions.find(e => e.name === 'Identity Resolver');
     const impact = graph.impactOfExtension(idr);
-    expect(impact.tags).toEqual(expect.arrayContaining(['GA4', 'AdobeAnalytics']));
+    expect(impact.tags).toContain('GA4');
     expect(impact.extensions.map(e => e.name)).toEqual(
-      expect.arrayContaining(['GA4 Ecommerce Mapping', 'Adobe Data Mapping'])
+      expect.arrayContaining(['GA4 Ecommerce Mapping'])
     );
   });
 
-  test('customer_id dependents include the GA4 + Adobe mappings', () => {
+  test('customer_id dependents include the GA4 mapping', () => {
     const dep = graph.dependentsOfVariable('customer_id');
-    expect(dep.tags).toEqual(expect.arrayContaining(['GA4', 'AdobeAnalytics']));
+    expect(dep.tags).toContain('GA4');
   });
 
   test('a leaf extension has no downstream dependents', () => {

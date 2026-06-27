@@ -12,7 +12,7 @@
  * @description Resolves the authenticated identity from the GridBox user object and
  *   exposes the canonical person keys consumed by every analytics/marketing tag.
  *   `customer_id`, `customer_email`, `visitor_id` are PROTECTED (policy/protected.yaml) —
- *   renaming/removing them breaks GA4 + Adobe mappings and downstream stitching.
+ *   renaming/removing them breaks GA4 + Meta mappings and downstream stitching.
  *
  * Tealium scope: Before Load Rules (after enrichment, before tag mappings).
  */

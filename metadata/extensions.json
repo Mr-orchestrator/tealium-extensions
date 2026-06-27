@@ -149,45 +149,11 @@
     "loadRank": 2001
   },
   {
-    "file": "extensions/20-after-load-rules/02-adobe-data-mapping.js",
-    "id": 21,
-    "name": "Adobe Data Mapping",
-    "scope": "After Load Rules",
-    "order": 2,
-    "loadRule": "all",
-    "creates": [
-      "adobe_events",
-      "adobe_products",
-      "adobe_eVar_email",
-      "adobe_eVar_tier",
-      "adobe_pageName"
-    ],
-    "uses": [
-      "consent_analytics",
-      "customer_email",
-      "customer_tier",
-      "customer_id",
-      "product_id",
-      "product_name",
-      "product_price",
-      "page_name",
-      "order_id",
-      "order_total",
-      "tealium_event"
-    ],
-    "tagCategory": "Analytics",
-    "feedsTag": "AdobeAnalytics",
-    "risk": "medium",
-    "description": "Maps the flat UDO to Adobe Analytics / AEP variables (events, products",
-    "protected": false,
-    "loadRank": 2002
-  },
-  {
-    "file": "extensions/20-after-load-rules/03-meta-pixel-mapping.js",
+    "file": "extensions/20-after-load-rules/02-meta-pixel-mapping.js",
     "id": 22,
     "name": "Meta Pixel Mapping",
     "scope": "After Load Rules",
-    "order": 3,
+    "order": 2,
     "loadRule": "all",
     "creates": [
       "meta_event_name",
@@ -208,7 +174,7 @@
     "risk": "medium",
     "description": "Maps the flat UDO to Meta (Facebook) Pixel standard events. GATED on",
     "protected": false,
-    "loadRank": 2003
+    "loadRank": 2002
   },
   {
     "file": "extensions/30-dom-ready/01-scroll-click-tracking.js",
@@ -243,7 +209,7 @@
       "consent_status",
       "customer_id",
       "ga4_event_name",
-      "adobe_events",
+      "meta_event_name",
       "tealium_event"
     ],
     "risk": "low",

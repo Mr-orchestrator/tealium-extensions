@@ -3,7 +3,7 @@
  * @id 22
  * @name Meta Pixel Mapping
  * @scope After Load Rules
- * @order 3
+ * @order 2
  * @loadRule all
  * @creates meta_event_name, meta_content_ids, meta_value, meta_currency
  * @uses consent_marketing, product_id, product_price, order_total, order_currency, tealium_event
@@ -13,7 +13,7 @@
  * @description Maps the flat UDO to Meta (Facebook) Pixel standard events. GATED on
  *   `consent_marketing` — no marketing data is produced without marketing consent
  *   (policy/consent-rules.yaml). Runs After Load Rules so enrichment + identity are present.
- *   Completes the consent story alongside the analytics gate (GA4 / Adobe).
+ *   Completes the consent story alongside the analytics gate (GA4).
  *
  * Tealium scope: After Load Rules. Feeds tag: Meta Pixel (Marketing).
  */
