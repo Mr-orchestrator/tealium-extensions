@@ -3,6 +3,8 @@
 
 Deploy these 10 extensions, 3 tags and load rules into the Tealium iQ profile, **in this order**, then validate with Trace.
 
+**Recommended — keep the repo as the source of truth:** in each extension use **Add GitHub File** and paste its GitHub URL (below) instead of copy-pasting code. Tealium loads the code from GitHub, so a repo change (after CI passes) flows to Tealium on republish. The linked GitHub account must have access to this repo.
+
 ## 1. Load rules
 
 All extensions/tags use load rule **All Pages** (`all`). Create one load rule "All Pages" with condition `true` (or use the built-in All Pages).
@@ -13,6 +15,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 1. Consent Manager 🔒
 - **Scope:** Pre Loader · **Order:** 1 · **Load rule:** All Pages · **Risk:** critical
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/00-pre-loader/01-consent-manager.js
 - **Creates:** consent_status, consent_analytics, consent_marketing
 - **Uses:** gridbox_data, tealium_event
 
@@ -56,6 +59,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 2. GridBox Data Layer Bridge
 - **Scope:** Pre Loader · **Order:** 2 · **Load rule:** All Pages · **Risk:** medium
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/00-pre-loader/02-datalayer-bridge.js
 - **Creates:** page_url, referrer, browser_language
 - **Uses:** gridbox_data, tealium_event
 
@@ -95,6 +99,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 3. Data Layer Enrichment
 - **Scope:** Before Load Rules · **Order:** 1 · **Load rule:** All Pages · **Risk:** medium
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/10-before-load-rules/01-datalayer-enrichment.js
 - **Creates:** cart_total, cart_item_count, product_id, product_name, product_category, product_brand, product_price, order_id, order_total, order_currency, search_term
 - **Uses:** gridbox_data, tealium_event
 
@@ -145,6 +150,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 4. Identity Resolver 🔒
 - **Scope:** Before Load Rules · **Order:** 2 · **Load rule:** All Pages · **Risk:** high
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/10-before-load-rules/02-identity-resolver.js
 - **Creates:** customer_id, customer_email, customer_tier, visitor_id, login_status
 - **Uses:** gridbox_data, tealium_event
 
@@ -188,6 +194,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 5. Page Data
 - **Scope:** Before Load Rules · **Order:** 3 · **Load rule:** All Pages · **Risk:** low
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/10-before-load-rules/03-page-data.js
 - **Creates:** page_name, page_type, page_category, site_section
 - **Uses:** gridbox_data, tealium_event
 
@@ -231,6 +238,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 6. GA4 Ecommerce Mapping
 - **Scope:** After Load Rules · **Order:** 1 · **Load rule:** All Pages · **Risk:** medium
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js
 - **Creates:** ga4_event_name, ga4_items, ga4_value, ga4_currency, ga4_user_id
 - **Uses:** consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event
 - **Feeds tag:** GA4 (Analytics)
@@ -284,6 +292,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 7. Adobe Data Mapping
 - **Scope:** After Load Rules · **Order:** 2 · **Load rule:** All Pages · **Risk:** medium
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/20-after-load-rules/02-adobe-data-mapping.js
 - **Creates:** adobe_events, adobe_products, adobe_eVar_email, adobe_eVar_tier, adobe_pageName
 - **Uses:** consent_analytics, customer_email, customer_tier, customer_id, product_id, product_name, product_price, page_name, order_id, order_total, tealium_event
 - **Feeds tag:** AdobeAnalytics (Analytics)
@@ -336,6 +345,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 8. Meta Pixel Mapping
 - **Scope:** After Load Rules · **Order:** 3 · **Load rule:** All Pages · **Risk:** medium
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/20-after-load-rules/03-meta-pixel-mapping.js
 - **Creates:** meta_event_name, meta_content_ids, meta_value, meta_currency
 - **Uses:** consent_marketing, product_id, product_price, order_total, order_currency, tealium_event
 - **Feeds tag:** MetaPixel (Marketing)
@@ -378,6 +388,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 9. Scroll & Click Tracking
 - **Scope:** DOM Ready · **Order:** 1 · **Load rule:** All Pages · **Risk:** low
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/30-dom-ready/01-scroll-click-tracking.js
 - **Creates:** scroll_depth, outbound_link, cta_clicked
 - **Uses:** page_name, tealium_event
 
@@ -440,6 +451,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 
 ### 10. Cleanup & Diagnostics
 - **Scope:** After Tags · **Order:** 1 · **Load rule:** All Pages · **Risk:** low
+- **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/40-after-tags/01-cleanup-diagnostics.js
 - **Creates:** —
 - **Uses:** consent_status, customer_id, ga4_event_name, adobe_events, tealium_event
 
