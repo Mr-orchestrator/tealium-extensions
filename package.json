@@ -11,6 +11,7 @@
     "docs": "node scripts/doc-agent.js",
     "knowledge:pull": "node scripts/knowledge-agent.js",
     "ai:review": "node scripts/ai-review-agent.js",
+    "deploy:guide": "node scripts/deploy-guide.js",
     "lint": "eslint extensions/**/*.js scripts/**/*.js",
     "test": "jest",
     "ci": "npm run lint && npm run build:metadata && npm run validate && npm run docs"
