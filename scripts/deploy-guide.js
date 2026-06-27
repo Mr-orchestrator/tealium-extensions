@@ -45,10 +45,26 @@ function run() {
     md += `- **Map these UDO variables in the tag's Data Mappings:** ${fed.flatMap(e => e.creates).join(', ')}\n\n`;
   });
 
-  md += `## 4. Save & publish\n\n`;
+  md += `## 4. Consent Management (Tealium-native — recommended)\n\n`;
+  md += `Configure consent **in Tealium** so tags are gated natively and Tealium shows the built-in prompt (no separate CMP required). Tealium iQ → **Client-Side Tools → Consent Management → Get Started**.\n\n`;
+  md += `Create these categories and assign the tags:\n\n`;
+  md += `| Consent category | Tags | Gate variable (data layer) |\n|---|---|---|\n`;
+  const cats = {};
+  Object.values(profile.tags).forEach(t => {
+    const cat = t.category === 'Marketing' ? 'Marketing' : 'Analytics';
+    (cats[cat] = cats[cat] || []).push(t.name);
+  });
+  Object.keys(cats).forEach(cat => {
+    md += `| ${cat} | ${cats[cat].join(', ')} | \`${cat === 'Marketing' ? 'consent_marketing' : 'consent_analytics'}\` |\n`;
+  });
+  md += `\n- Show the **Consent Preferences Dialog** (or the **Explicit Consent Prompt** for GDPR opt-in).\n`;
+  md += `- The **Consent Manager** extension mirrors Tealium's decision (\`utag.gdpr.getConsentState()\`) into \`consent_analytics\` / \`consent_marketing\`, so the mapping extensions stay consistent with Tealium's native tag gating (defence in depth).\n`;
+  md += `- The site-side CookieConsent CMP is **optional** once this is on — Tealium's prompt can replace it.\n\n`;
+
+  md += `## 5. Save & publish\n\n`;
   md += `Use **Save As** (never Overwrite) to preserve versions for rollback, then **Publish to qa**.\n\n`;
 
-  md += `## 5. Validate inside Tealium (all of them)\n\n`;
+  md += `## 6. Validate inside Tealium (all of them)\n\n`;
   md += `1. **Trace:** Tealium iQ → **Trace** → *Start trace* → copy the trace token → open the F1 site (loader already installed) and append the trace token. The timeline shows each extension firing in **scope/order**, variables populating, and tags sending.\n`;
   md += `2. **Console (utagdb):** in the browser console run \`utag.cfg.utagdb=true\` then reload — the **Cleanup & Diagnostics** extension prints a per-event summary (\`[F1] event=… consent=… user=… ga4=… adobe=…\`).\n`;
   md += `3. **Checklist — confirm on the live site:**\n`;
