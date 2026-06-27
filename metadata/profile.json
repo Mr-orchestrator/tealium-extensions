@@ -1,7 +1,7 @@
 {
   "source": "local-manifest",
   "counts": {
-    "extensions": 9,
+    "extensions": 10,
     "variables": 40,
     "tags": 2
   },
@@ -47,6 +47,22 @@
       "description": "Bridges the F1 Racing Store GridBox / adobeDataLayer into the Tealium UDO",
       "protected": false,
       "loadRank": 2
+    },
+    {
+      "file": "extensions/00-pre-loader/03-event-bridge.js",
+      "id": 3,
+      "name": "GridBox Event Bridge",
+      "scope": "Pre Loader",
+      "order": 3,
+      "loadRule": "all",
+      "creates": [],
+      "uses": [
+        "tealium_event"
+      ],
+      "risk": "medium",
+      "description": "Forwards the F1 GridBox event stream into Tealium. The page VIEW fires",
+      "protected": false,
+      "loadRank": 3
     },
     {
       "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js",
@@ -379,6 +395,13 @@
         },
         {
           "feedsTag": null,
+          "id": 3,
+          "name": "GridBox Event Bridge",
+          "scope": "Pre Loader",
+          "file": "extensions/00-pre-loader/03-event-bridge.js"
+        },
+        {
+          "feedsTag": null,
           "id": 10,
           "name": "Data Layer Enrichment",
           "scope": "Before Load Rules",
@@ -431,6 +454,7 @@
         "extensions": [
           1,
           2,
+          3,
           10,
           11,
           12,
@@ -1180,6 +1204,7 @@
     "all": [
       1,
       2,
+      3,
       10,
       11,
       12,

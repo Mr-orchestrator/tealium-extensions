@@ -152,6 +152,13 @@
       },
       {
         "feedsTag": null,
+        "id": 3,
+        "name": "GridBox Event Bridge",
+        "scope": "Pre Loader",
+        "file": "extensions/00-pre-loader/03-event-bridge.js"
+      },
+      {
+        "feedsTag": null,
         "id": 10,
         "name": "Data Layer Enrichment",
         "scope": "Before Load Rules",
@@ -204,6 +211,7 @@
       "extensions": [
         1,
         2,
+        3,
         10,
         11,
         12,

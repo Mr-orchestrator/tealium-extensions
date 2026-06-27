@@ -15,6 +15,7 @@ graph LR
   E2(["GridBox Data Layer Bridge"]) --> V_browser_language["browser_language"]
   V_gridbox_data --> E2
   V_tealium_event --> E2
+  V_tealium_event --> E3
   E10(["Data Layer Enrichment"]) --> V_cart_total["cart_total"]
   E10(["Data Layer Enrichment"]) --> V_cart_item_count["cart_item_count"]
   E10(["Data Layer Enrichment"]) --> V_product_id["product_id"]
@@ -82,7 +83,7 @@ graph LR
 
 ## Protected / high-impact variables
 
-- **tealium_event** → feeds tags: GA4, MetaPixel (used by 9 extension(s))
+- **tealium_event** → feeds tags: GA4, MetaPixel (used by 10 extension(s))
 - **product_id** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
 - **product_price** → feeds tags: GA4, MetaPixel (used by 2 extension(s))
 - **order_total** → feeds tags: GA4, MetaPixel (used by 2 extension(s))

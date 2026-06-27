@@ -42,6 +42,22 @@
     "loadRank": 2
   },
   {
+    "file": "extensions/00-pre-loader/03-event-bridge.js",
+    "id": 3,
+    "name": "GridBox Event Bridge",
+    "scope": "Pre Loader",
+    "order": 3,
+    "loadRule": "all",
+    "creates": [],
+    "uses": [
+      "tealium_event"
+    ],
+    "risk": "medium",
+    "description": "Forwards the F1 GridBox event stream into Tealium. The page VIEW fires",
+    "protected": false,
+    "loadRank": 3
+  },
+  {
     "file": "extensions/10-before-load-rules/01-datalayer-enrichment.js",
     "id": 10,
     "name": "Data Layer Enrichment",

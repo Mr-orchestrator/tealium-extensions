@@ -11,7 +11,7 @@ Tealium runs extensions/tags by **scope**, then **order** within scope. Code is 
 
 | Folder | Tealium scope | F1 extensions |
 |---|---|---|
-| `extensions/00-pre-loader/` | **Pre Loader** | Consent Manager 🔒 |
+| `extensions/00-pre-loader/` | **Pre Loader** | Consent Manager 🔒, GridBox Data Layer Bridge, GridBox Event Bridge |
 | `extensions/10-before-load-rules/` | **Before Load Rules** | Data Layer Enrichment, Identity Resolver 🔒, Page Data |
 | `extensions/20-after-load-rules/` | **After Load Rules** | GA4 Ecommerce Mapping, Meta Pixel Mapping |
 | `extensions/30-dom-ready/` | **DOM Ready** | Scroll & Click Tracking |
