@@ -24,7 +24,7 @@
       ],
       "protected": true,
       "risk": "critical",
-      "description": "Reads the visitor consent state BEFORE utag loads and exposes a",
+      "description": "Resolves visitor consent BEFORE utag loads and exposes normalised flags.",
       "loadRank": 1
     },
     {
