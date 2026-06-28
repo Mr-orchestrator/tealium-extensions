@@ -23,16 +23,21 @@
  *   Analytics/Marketing tags gate on these flags (policy/consent-rules.yaml). Runs first in
  *   Pre Loader so no tag fires ahead of the consent decision.
  *
- * Tealium scope: Pre Loader.  a = event type, b = data layer (utag_data).
+ * Tealium scope: Pre Loader. NOTE: Pre Loader code is NOT wrapped in function(a,b) and the
+ *   data layer `b` does not exist yet (see docs.tealium.com). So this runs as a no-arg IIFE,
+ *   reads consent from window-level sources, and writes the flags onto `window.utag_data` —
+ *   Tealium merges utag_data into the data layer, so the flags reach `b` for every downstream
+ *   extension and the native tag gates.
  */
-(function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data || {};
+(function () {
+  var utag_data = window.utag_data = window.utag_data || {};
+  var gb = window.gridbox_data || {};
   var c = fromTealium() || fromCookieConsent() || fromConsentMode() || fromGridbox(gb) || fromDefault();
 
-  b.consent_analytics = c.analytics ? '1' : '0';
-  b.consent_marketing = c.marketing ? '1' : '0';
-  b.consent_status = (c.analytics && c.marketing) ? 'granted' : (c.analytics || c.marketing) ? 'partial' : 'denied';
-  window._f1_consent = { analytics: c.analytics, marketing: c.marketing, status: b.consent_status, source: c.source };
+  utag_data.consent_analytics = c.analytics ? '1' : '0';
+  utag_data.consent_marketing = c.marketing ? '1' : '0';
+  utag_data.consent_status = (c.analytics && c.marketing) ? 'granted' : (c.analytics || c.marketing) ? 'partial' : 'denied';
+  window._f1_consent = { analytics: c.analytics, marketing: c.marketing, status: utag_data.consent_status, source: c.source };
 
   // 1. Tealium native Consent Management
   function fromTealium() {
@@ -74,4 +79,4 @@
     var granted = (window.F1_CONSENT_DEFAULT || 'denied') === 'granted';
     return { analytics: granted, marketing: granted, source: 'default' };
   }
-})(a, b);
+})();

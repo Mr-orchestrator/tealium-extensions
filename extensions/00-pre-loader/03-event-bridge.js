@@ -17,8 +17,10 @@
  *   every utag call). This is what makes SPA events + element/click tracking reach the tags.
  *
  * Tealium scope: Pre Loader (wrap set up early; utag.link fires once utag is ready).
+ *   NOTE: Pre Loader code is NOT wrapped in function(a,b) — this is a no-arg IIFE and works
+ *   only off window/utag (it never touches the data layer `b`, which does not exist yet).
  */
-(function (a, b) {
+(function () {
   if (window._f1_event_bridge) return;
   window._f1_event_bridge = true;
 
@@ -49,4 +51,4 @@
     for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) data[k] = attrs[k]; }
     utag.link(data);
   }
-})(a, b);
+})();

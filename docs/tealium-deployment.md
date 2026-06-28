@@ -45,16 +45,21 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  *   Analytics/Marketing tags gate on these flags (policy/consent-rules.yaml). Runs first in
  *   Pre Loader so no tag fires ahead of the consent decision.
  *
- * Tealium scope: Pre Loader.  a = event type, b = data layer (utag_data).
+ * Tealium scope: Pre Loader. NOTE: Pre Loader code is NOT wrapped in function(a,b) and the
+ *   data layer `b` does not exist yet (see docs.tealium.com). So this runs as a no-arg IIFE,
+ *   reads consent from window-level sources, and writes the flags onto `window.utag_data` —
+ *   Tealium merges utag_data into the data layer, so the flags reach `b` for every downstream
+ *   extension and the native tag gates.
  */
-(function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data || {};
+(function () {
+  var utag_data = window.utag_data = window.utag_data || {};
+  var gb = window.gridbox_data || {};
   var c = fromTealium() || fromCookieConsent() || fromConsentMode() || fromGridbox(gb) || fromDefault();
 
-  b.consent_analytics = c.analytics ? '1' : '0';
-  b.consent_marketing = c.marketing ? '1' : '0';
-  b.consent_status = (c.analytics && c.marketing) ? 'granted' : (c.analytics || c.marketing) ? 'partial' : 'denied';
-  window._f1_consent = { analytics: c.analytics, marketing: c.marketing, status: b.consent_status, source: c.source };
+  utag_data.consent_analytics = c.analytics ? '1' : '0';
+  utag_data.consent_marketing = c.marketing ? '1' : '0';
+  utag_data.consent_status = (c.analytics && c.marketing) ? 'granted' : (c.analytics || c.marketing) ? 'partial' : 'denied';
+  window._f1_consent = { analytics: c.analytics, marketing: c.marketing, status: utag_data.consent_status, source: c.source };
 
   // 1. Tealium native Consent Management
   function fromTealium() {
@@ -96,7 +101,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
     var granted = (window.F1_CONSENT_DEFAULT || 'denied') === 'granted';
     return { analytics: granted, marketing: granted, source: 'default' };
   }
-})(a, b);
+})();
 ```
 
 ### 2. GridBox Data Layer Bridge
@@ -122,21 +127,25 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  *   Runs in Pre Loader after Consent Manager (consent reads gridbox_data directly, so the
  *   decision is already available). gridbox_data itself is an external input (set by the site).
  *
- * Tealium scope: Pre Loader.
+ * Tealium scope: Pre Loader. NOTE: Pre Loader code is NOT wrapped in function(a,b) and `b`
+ *   does not exist yet (see docs.tealium.com). This MUST run here so window.utag_data is
+ *   populated before Tealium assembles the data layer; it writes the bridged values onto
+ *   window.utag_data, which Tealium then merges into `b`.
  */
-(function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data ||
+(function () {
+  var utag_data = window.utag_data = window.utag_data || {};
+  var gb = window.gridbox_data ||
            (window.gridboxLayer && window.gridboxLayer.gridbox_data) || {};
-  b.gridbox_data = gb; // make the raw object available to enrichment extensions
+  utag_data.gridbox_data = gb; // make the raw object available to enrichment extensions
 
   // Normalise event name: GridBox `event` -> Tealium `tealium_event` (do not overwrite if set)
-  if (gb.event && !b.tealium_event) b.tealium_event = String(gb.event);
+  if (gb.event && !utag_data.tealium_event) utag_data.tealium_event = String(gb.event);
 
   // Environment context
-  b.page_url = (window.location && window.location.href) || '';
-  b.referrer = (document && document.referrer) || '';
-  b.browser_language = (navigator && (navigator.language || navigator.userLanguage)) || '';
-})(a, b);
+  utag_data.page_url = (window.location && window.location.href) || '';
+  utag_data.referrer = (document && document.referrer) || '';
+  utag_data.browser_language = (navigator && (navigator.language || navigator.userLanguage)) || '';
+})();
 ```
 
 ### 3. GridBox Event Bridge
@@ -165,8 +174,10 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  *   every utag call). This is what makes SPA events + element/click tracking reach the tags.
  *
  * Tealium scope: Pre Loader (wrap set up early; utag.link fires once utag is ready).
+ *   NOTE: Pre Loader code is NOT wrapped in function(a,b) — this is a no-arg IIFE and works
+ *   only off window/utag (it never touches the data layer `b`, which does not exist yet).
  */
-(function (a, b) {
+(function () {
   if (window._f1_event_bridge) return;
   window._f1_event_bridge = true;
 
@@ -197,7 +208,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
     for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) data[k] = attrs[k]; }
     utag.link(data);
   }
-})(a, b);
+})();
 ```
 
 ### 4. Data Layer Enrichment

@@ -14,18 +14,22 @@
  *   Runs in Pre Loader after Consent Manager (consent reads gridbox_data directly, so the
  *   decision is already available). gridbox_data itself is an external input (set by the site).
  *
- * Tealium scope: Pre Loader.
+ * Tealium scope: Pre Loader. NOTE: Pre Loader code is NOT wrapped in function(a,b) and `b`
+ *   does not exist yet (see docs.tealium.com). This MUST run here so window.utag_data is
+ *   populated before Tealium assembles the data layer; it writes the bridged values onto
+ *   window.utag_data, which Tealium then merges into `b`.
  */
-(function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data ||
+(function () {
+  var utag_data = window.utag_data = window.utag_data || {};
+  var gb = window.gridbox_data ||
            (window.gridboxLayer && window.gridboxLayer.gridbox_data) || {};
-  b.gridbox_data = gb; // make the raw object available to enrichment extensions
+  utag_data.gridbox_data = gb; // make the raw object available to enrichment extensions
 
   // Normalise event name: GridBox `event` -> Tealium `tealium_event` (do not overwrite if set)
-  if (gb.event && !b.tealium_event) b.tealium_event = String(gb.event);
+  if (gb.event && !utag_data.tealium_event) utag_data.tealium_event = String(gb.event);
 
   // Environment context
-  b.page_url = (window.location && window.location.href) || '';
-  b.referrer = (document && document.referrer) || '';
-  b.browser_language = (navigator && (navigator.language || navigator.userLanguage)) || '';
-})(a, b);
+  utag_data.page_url = (window.location && window.location.href) || '';
+  utag_data.referrer = (document && document.referrer) || '';
+  utag_data.browser_language = (navigator && (navigator.language || navigator.userLanguage)) || '';
+})();
