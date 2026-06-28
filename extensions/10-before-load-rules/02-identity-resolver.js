@@ -17,17 +17,19 @@
  * Tealium scope: Before Load Rules (after enrichment, before tag mappings).
  */
 (function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data || {};
-  var user = (gb.user && gb.user[0]) || gb.user || {};
+  var gb = window.gridbox_data || {};
 
-  // Persistent anonymous id (always present)
-  b.visitor_id = String(user.visitorId || gb.visitor_id || b.visitor_id || '');
+  // Persistent anonymous id (flat: event attr / gridbox / existing UDO).
+  b.visitor_id = String(b.visitor_id || gb.anonymous_id || gb.visitor_id || '');
 
-  // Authenticated identity (only when logged in)
-  if (user.id || user.email) {
-    b.customer_id = String(user.id || '');
-    b.customer_email = String(user.email || '');
-    b.customer_tier = String(user.tier || user.customerTier || 'standard');
+  // Authenticated identity arrives FLAT on the data layer — event attributes `user_id` /
+  // `user_email` (forwarded by the Event Bridge) or a pre-set `customer_id` / `customer_email`.
+  var id = b.customer_id || b.user_id || '';
+  var email = b.customer_email || b.user_email || '';
+  if (id || email) {
+    b.customer_id = String(id);
+    b.customer_email = String(email);
+    b.customer_tier = String(b.customer_tier || b.tier || 'standard');
     b.login_status = 'true';
   } else {
     b.login_status = 'false';

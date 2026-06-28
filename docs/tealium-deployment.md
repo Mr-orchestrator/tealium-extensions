@@ -230,24 +230,41 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
   var cart = gb.cart || {};
   var txn = gb.transaction || {};
 
+  // Two shapes feed this extension:
+  //  • page VIEW  → nested gridbox_data.{product,cart,transaction} (from the Bridge)
+  //  • INTERACTION (utag.link) → FLAT event attributes already on `b` (from the Event Bridge)
+  // Flat values take precedence: an event attribute describes the current action, the page
+  // object describes the page. `pick(flat, nested)` keeps existing `b.*` if already set.
+  function pick(flat, nested) { return flat != null && flat !== '' ? flat : nested; }
+
   // Product context (product / cart events)
-  if (prod.id) b.product_id = String(prod.id);
-  if (prod.name) b.product_name = String(prod.name);
-  if (prod.category) b.product_category = String(prod.category);
-  if (prod.brand) b.product_brand = String(prod.brand);
-  if (prod.price != null) b.product_price = String(prod.price);
+  var pid = pick(b.product_id, prod.id);
+  if (pid != null) b.product_id = String(pid);
+  var pname = pick(b.product_name, prod.name);
+  if (pname != null) b.product_name = String(pname);
+  var pcat = pick(b.product_category, prod.category);
+  if (pcat != null) b.product_category = String(pcat);
+  var pbrand = pick(b.product_brand, prod.brand);
+  if (pbrand != null) b.product_brand = String(pbrand);
+  var pprice = pick(b.product_price, prod.price);
+  if (pprice != null) b.product_price = String(pprice);
 
   // Cart context
-  if (cart.total != null) b.cart_total = String(cart.total);
-  if (cart.itemCount != null) b.cart_item_count = String(cart.itemCount);
+  var ctotal = pick(b.cart_total, cart.total);
+  if (ctotal != null) b.cart_total = String(ctotal);
+  var ccount = pick(b.cart_item_count, cart.itemCount);
+  if (ccount != null) b.cart_item_count = String(ccount);
 
   // Transaction context (purchase)
-  if (txn.id) b.order_id = String(txn.id);
-  if (txn.total != null) b.order_total = String(txn.total);
-  b.order_currency = String(txn.currency || gb.currency || 'USD');
+  var oid = pick(b.order_id, txn.id);
+  if (oid != null) b.order_id = String(oid);
+  var ototal = pick(b.order_total, txn.total);
+  if (ototal != null) b.order_total = String(ototal);
+  b.order_currency = String(b.order_currency || txn.currency || gb.currency || 'USD');
 
   // Search context
-  if (gb.search_term) b.search_term = String(gb.search_term);
+  var term = pick(b.search_term, gb.search_term);
+  if (term != null) b.search_term = String(term);
 })(a, b);
 ```
 
@@ -277,17 +294,19 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  * Tealium scope: Before Load Rules (after enrichment, before tag mappings).
  */
 (function (a, b) {
-  var gb = (b && b.gridbox_data) || window.gridbox_data || {};
-  var user = (gb.user && gb.user[0]) || gb.user || {};
+  var gb = window.gridbox_data || {};
 
-  // Persistent anonymous id (always present)
-  b.visitor_id = String(user.visitorId || gb.visitor_id || b.visitor_id || '');
+  // Persistent anonymous id (flat: event attr / gridbox / existing UDO).
+  b.visitor_id = String(b.visitor_id || gb.anonymous_id || gb.visitor_id || '');
 
-  // Authenticated identity (only when logged in)
-  if (user.id || user.email) {
-    b.customer_id = String(user.id || '');
-    b.customer_email = String(user.email || '');
-    b.customer_tier = String(user.tier || user.customerTier || 'standard');
+  // Authenticated identity arrives FLAT on the data layer — event attributes `user_id` /
+  // `user_email` (forwarded by the Event Bridge) or a pre-set `customer_id` / `customer_email`.
+  var id = b.customer_id || b.user_id || '';
+  var email = b.customer_email || b.user_email || '';
+  if (id || email) {
+    b.customer_id = String(id);
+    b.customer_email = String(email);
+    b.customer_tier = String(b.customer_tier || b.tier || 'standard');
     b.login_status = 'true';
   } else {
     b.login_status = 'false';
