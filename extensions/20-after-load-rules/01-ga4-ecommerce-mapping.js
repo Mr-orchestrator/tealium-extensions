@@ -22,6 +22,8 @@
 
   // Commerce funnel → GA4 recommended events. Keyed on the identifier the Event Bridge sets
   // as tealium_event — the GridBox stable key OR the human event name (racing-f1/analytics.js).
+  // The site emits MIXED identifiers for the funnel: some stable (AddToCart), some gb_ keys
+  // (gb_checkout_begin, gb_purchase_complete). Cover every form so none fall through to page_view.
   var COMMERCE = {
     ProductView: 'view_item', 'Product viewed': 'view_item',
     AddToCart: 'add_to_cart', 'Add to cart': 'add_to_cart',
@@ -29,7 +31,9 @@
     MerchandiseAddedToCart: 'add_to_cart', 'Merchandise added to cart': 'add_to_cart',
     RemoveFromCart: 'remove_from_cart', 'Remove from cart': 'remove_from_cart',
     BeginCheckout: 'begin_checkout', 'Begin checkout': 'begin_checkout',
-    Purchase: 'purchase', 'Purchase completed': 'purchase'
+    gb_checkout_begin: 'begin_checkout',
+    Purchase: 'purchase', 'Purchase completed': 'purchase',
+    gb_purchase_complete: 'purchase'
   };
   if (COMMERCE[b.tealium_event]) {
     b.ga4_event_name = COMMERCE[b.tealium_event];

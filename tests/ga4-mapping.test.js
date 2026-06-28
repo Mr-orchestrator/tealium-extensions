@@ -33,7 +33,9 @@ describe('GA4 Ecommerce Mapping', () => {
     MerchandiseAddedToCart: 'add_to_cart',
     RemoveFromCart: 'remove_from_cart',
     BeginCheckout: 'begin_checkout',
-    Purchase: 'purchase'
+    gb_checkout_begin: 'begin_checkout', // site's public beginCheckout() uses a gb_ key
+    Purchase: 'purchase',
+    gb_purchase_complete: 'purchase'     // site's public purchase() uses a gb_ key
   };
   Object.keys(commerce).forEach((key) => {
     test(`commerce key '${key}' → ga4_event_name '${commerce[key]}'`, () => {
