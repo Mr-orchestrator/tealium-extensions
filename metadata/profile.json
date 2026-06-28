@@ -2,7 +2,7 @@
   "source": "local-manifest",
   "counts": {
     "extensions": 10,
-    "variables": 40,
+    "variables": 42,
     "tags": 2
   },
   "extensions": [
@@ -162,7 +162,9 @@
         "order_id",
         "order_total",
         "order_currency",
-        "tealium_event"
+        "tealium_event",
+        "eventCategory",
+        "eventAction"
       ],
       "tagCategory": "Analytics",
       "feedsTag": "GA4",
@@ -1075,6 +1077,48 @@
       "usedIn": {
         "extensions": [],
         "tags": []
+      }
+    },
+    "eventCategory": {
+      "name": "eventCategory",
+      "created_by": [],
+      "used_by": [
+        {
+          "feedsTag": "GA4",
+          "id": 20,
+          "name": "GA4 Ecommerce Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+        }
+      ],
+      "usedIn": {
+        "extensions": [
+          20
+        ],
+        "tags": [
+          "GA4"
+        ]
+      }
+    },
+    "eventAction": {
+      "name": "eventAction",
+      "created_by": [],
+      "used_by": [
+        {
+          "feedsTag": "GA4",
+          "id": 20,
+          "name": "GA4 Ecommerce Mapping",
+          "scope": "After Load Rules",
+          "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+        }
+      ],
+      "usedIn": {
+        "extensions": [
+          20
+        ],
+        "tags": [
+          "GA4"
+        ]
       }
     },
     "meta_event_name": {

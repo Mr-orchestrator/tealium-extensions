@@ -834,6 +834,48 @@
       "tags": []
     }
   },
+  "eventCategory": {
+    "name": "eventCategory",
+    "created_by": [],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20
+      ],
+      "tags": [
+        "GA4"
+      ]
+    }
+  },
+  "eventAction": {
+    "name": "eventAction",
+    "created_by": [],
+    "used_by": [
+      {
+        "feedsTag": "GA4",
+        "id": 20,
+        "name": "GA4 Ecommerce Mapping",
+        "scope": "After Load Rules",
+        "file": "extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js"
+      }
+    ],
+    "usedIn": {
+      "extensions": [
+        20
+      ],
+      "tags": [
+        "GA4"
+      ]
+    }
+  },
   "meta_event_name": {
     "name": "meta_event_name",
     "created_by": [

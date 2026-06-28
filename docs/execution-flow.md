@@ -13,7 +13,7 @@ Tealium runs extensions by **scope**, then **order** within scope:
 | 4 | Before Load Rules | 1 | Data Layer Enrichment | cart_total, cart_item_count, product_id, product_name, product_category, product_brand, product_price, order_id, order_total, order_currency, search_term | gridbox_data, tealium_event | medium |
 | 5 | Before Load Rules | 2 | Identity Resolver 🔒 | customer_id, customer_email, customer_tier, visitor_id, login_status | gridbox_data, tealium_event | high |
 | 6 | Before Load Rules | 3 | Page Data | page_name, page_type, page_category, site_section | gridbox_data, tealium_event | low |
-| 7 | After Load Rules | 1 | GA4 Ecommerce Mapping | ga4_event_name, ga4_items, ga4_value, ga4_currency, ga4_user_id | consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event | medium |
+| 7 | After Load Rules | 1 | GA4 Ecommerce Mapping | ga4_event_name, ga4_items, ga4_value, ga4_currency, ga4_user_id | consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event, eventCategory, eventAction | medium |
 | 8 | After Load Rules | 2 | Meta Pixel Mapping | meta_event_name, meta_content_ids, meta_value, meta_currency | consent_marketing, product_id, product_price, order_total, order_currency, tealium_event | medium |
 | 9 | DOM Ready | 1 | Scroll & Click Tracking | scroll_depth, outbound_link, cta_clicked | page_name, tealium_event | low |
 | 10 | After Tags | 1 | Cleanup & Diagnostics | — | consent_status, customer_id, ga4_event_name, meta_event_name, tealium_event | low |

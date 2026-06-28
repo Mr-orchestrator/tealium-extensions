@@ -57,6 +57,8 @@ graph LR
   V_order_total --> E20
   V_order_currency --> E20
   V_tealium_event --> E20
+  V_eventCategory --> E20
+  V_eventAction --> E20
   E20 --> T_GA4{{"GA4"}}
   E22(["Meta Pixel Mapping"]) --> V_meta_event_name["meta_event_name"]
   E22(["Meta Pixel Mapping"]) --> V_meta_content_ids["meta_content_ids"]
@@ -94,3 +96,5 @@ graph LR
 - **product_name** → feeds tags: GA4 (used by 1 extension(s))
 - **order_id** → feeds tags: GA4 (used by 1 extension(s))
 - **customer_id** → feeds tags: GA4 (used by 2 extension(s))
+- **eventCategory** → feeds tags: GA4 (used by 1 extension(s))
+- **eventAction** → feeds tags: GA4 (used by 1 extension(s))

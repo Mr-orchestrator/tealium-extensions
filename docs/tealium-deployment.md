@@ -166,12 +166,14 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  * @uses tealium_event
  * @risk medium
  * @description Forwards the F1 GridBox event stream into Tealium. The page VIEW fires
- *   automatically via utag.js; this bridges every post-load INTERACTION (utag.link). It wraps
- *   window.adobeDataLayer.push ONCE and, for each tracked event — ProductView, AddToCart,
- *   RemoveFromCart, BeginCheckout, Purchase, User logged in/out, Search — and each element
- *   event from the site's `data-track` attribute (action_type "rf1_*"), maps the event's
- *   attributes onto the data layer and calls utag.link(). Idempotent (guards re-wrapping on
- *   every utag call). This is what makes SPA events + element/click tracking reach the tags.
+ *   automatically via utag.js; this bridges every post-load INTERACTION (utag.link).
+ *   The site (racing-f1/analytics.js) routes EVERY fired event through one chokepoint —
+ *   pushToAdobeDataLayer() — onto window.adobeDataLayer, with shape
+ *   `{ event, eventInfo:{eventName,key,category}, attributes:{...flat} }`. Element/`data-track`
+ *   clicks arrive as the site's gb_<category>_<action>_<label> contract and carry flat
+ *   `eventCategory/eventAction/eventLabel` in attributes. We wrap push ONCE, forward every
+ *   GridBox-shaped event (identified by `eventInfo`) to utag.link, set `tealium_event` to the
+ *   stable key (or event name), and spread the attributes onto the data layer. Idempotent.
  *
  * Tealium scope: Pre Loader (wrap set up early; utag.link fires once utag is ready).
  *   NOTE: Pre Loader code is NOT wrapped in function(a,b) — this is a no-arg IIFE and works
@@ -180,11 +182,6 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 (function () {
   if (window._f1_event_bridge) return;
   window._f1_event_bridge = true;
-
-  var TRACKED = {
-    'ProductView': 1, 'AddToCart': 1, 'RemoveFromCart': 1, 'BeginCheckout': 1,
-    'Purchase': 1, 'User logged in': 1, 'User logged out': 1, 'Search performed': 1
-  };
 
   var dl = window.adobeDataLayer = window.adobeDataLayer || [];
   var origPush = dl.push;
@@ -197,14 +194,13 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
   for (var j = 0; j < dl.length; j++) forward(dl[j]);
 
   function forward(p) {
-    if (!p || typeof p !== 'object') return;
-    var ev = p.event;
-    if (!ev) return;
-    // named interaction events OR data-track element events ("rf1_*")
-    if (!(TRACKED[ev] || /^rf1_/.test(ev))) return;
+    if (!p || typeof p !== 'object' || !p.eventInfo) return; // only GridBox-shaped events
     if (!(window.utag && typeof utag.link === 'function')) return; // utag not ready yet
-    var data = { tealium_event: ev };
+    var info = p.eventInfo;
     var attrs = p.attributes || p.data || {};
+    // Stable identifier: eventInfo.key (e.g. AddToCart / gb_cart_add_label) → eventName → event.
+    var data = { tealium_event: info.key || info.eventName || p.event };
+    if (info.category && !attrs.eventCategory) data.event_primary_category = info.category;
     for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) data[k] = attrs[k]; }
     utag.link(data);
   }
@@ -373,7 +369,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 - **Scope:** After Load Rules · **Order:** 1 · **Load rule:** All Pages · **Risk:** medium
 - **Add GitHub File URL:** https://github.com/Mr-orchestrator/tealium-extensions/blob/main/extensions/20-after-load-rules/01-ga4-ecommerce-mapping.js
 - **Creates:** ga4_event_name, ga4_items, ga4_value, ga4_currency, ga4_user_id
-- **Uses:** consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event
+- **Uses:** consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event, eventCategory, eventAction
 - **Feeds tag:** GA4 (Analytics)
 
 ```javascript
@@ -385,7 +381,7 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
  * @order 1
  * @loadRule all
  * @creates ga4_event_name, ga4_items, ga4_value, ga4_currency, ga4_user_id
- * @uses consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event
+ * @uses consent_analytics, customer_id, product_id, product_name, product_price, cart_total, order_id, order_total, order_currency, tealium_event, eventCategory, eventAction
  * @tagCategory Analytics
  * @feedsTag GA4
  * @risk medium
@@ -399,14 +395,26 @@ In Tealium iQ → **Extensions → + Add Extension → JavaScript Code**. Set th
 (function (a, b) {
   if (b.consent_analytics !== '1') return; // consent gate — no analytics without consent
 
-  var map = {
-    ProductView: 'view_item',
-    AddToCart: 'add_to_cart',
-    RemoveFromCart: 'remove_from_cart',
-    BeginCheckout: 'begin_checkout',
-    Purchase: 'purchase'
+  // Commerce funnel → GA4 recommended events. Keyed on the identifier the Event Bridge sets
+  // as tealium_event — the GridBox stable key OR the human event name (racing-f1/analytics.js).
+  var COMMERCE = {
+    ProductView: 'view_item', 'Product viewed': 'view_item',
+    AddToCart: 'add_to_cart', 'Add to cart': 'add_to_cart',
+    TicketAddedToCart: 'add_to_cart', 'Ticket added to cart': 'add_to_cart',
+    MerchandiseAddedToCart: 'add_to_cart', 'Merchandise added to cart': 'add_to_cart',
+    RemoveFromCart: 'remove_from_cart', 'Remove from cart': 'remove_from_cart',
+    BeginCheckout: 'begin_checkout', 'Begin checkout': 'begin_checkout',
+    Purchase: 'purchase', 'Purchase completed': 'purchase'
   };
-  b.ga4_event_name = map[b.tealium_event] || 'page_view';
+  if (COMMERCE[b.tealium_event]) {
+    b.ga4_event_name = COMMERCE[b.tealium_event];
+  } else if (b.eventCategory && b.eventAction) {
+    // Dynamic GA4 name from the site's gb_<category>_<action> contract (auto-mapping, no map edit).
+    var norm = function (s) { return String(s).trim().replace(/\s+/g, '_').toLowerCase(); };
+    b.ga4_event_name = 'ga4_' + norm(b.eventCategory) + '_' + norm(b.eventAction);
+  } else {
+    b.ga4_event_name = 'page_view';
+  }
   b.ga4_currency = b.order_currency || 'USD';
   b.ga4_user_id = b.customer_id || '';
 

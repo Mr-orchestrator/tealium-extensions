@@ -9,12 +9,14 @@
  * @uses tealium_event
  * @risk medium
  * @description Forwards the F1 GridBox event stream into Tealium. The page VIEW fires
- *   automatically via utag.js; this bridges every post-load INTERACTION (utag.link). It wraps
- *   window.adobeDataLayer.push ONCE and, for each tracked event — ProductView, AddToCart,
- *   RemoveFromCart, BeginCheckout, Purchase, User logged in/out, Search — and each element
- *   event from the site's `data-track` attribute (action_type "rf1_*"), maps the event's
- *   attributes onto the data layer and calls utag.link(). Idempotent (guards re-wrapping on
- *   every utag call). This is what makes SPA events + element/click tracking reach the tags.
+ *   automatically via utag.js; this bridges every post-load INTERACTION (utag.link).
+ *   The site (racing-f1/analytics.js) routes EVERY fired event through one chokepoint —
+ *   pushToAdobeDataLayer() — onto window.adobeDataLayer, with shape
+ *   `{ event, eventInfo:{eventName,key,category}, attributes:{...flat} }`. Element/`data-track`
+ *   clicks arrive as the site's gb_<category>_<action>_<label> contract and carry flat
+ *   `eventCategory/eventAction/eventLabel` in attributes. We wrap push ONCE, forward every
+ *   GridBox-shaped event (identified by `eventInfo`) to utag.link, set `tealium_event` to the
+ *   stable key (or event name), and spread the attributes onto the data layer. Idempotent.
  *
  * Tealium scope: Pre Loader (wrap set up early; utag.link fires once utag is ready).
  *   NOTE: Pre Loader code is NOT wrapped in function(a,b) — this is a no-arg IIFE and works
@@ -23,11 +25,6 @@
 (function () {
   if (window._f1_event_bridge) return;
   window._f1_event_bridge = true;
-
-  var TRACKED = {
-    'ProductView': 1, 'AddToCart': 1, 'RemoveFromCart': 1, 'BeginCheckout': 1,
-    'Purchase': 1, 'User logged in': 1, 'User logged out': 1, 'Search performed': 1
-  };
 
   var dl = window.adobeDataLayer = window.adobeDataLayer || [];
   var origPush = dl.push;
@@ -40,14 +37,13 @@
   for (var j = 0; j < dl.length; j++) forward(dl[j]);
 
   function forward(p) {
-    if (!p || typeof p !== 'object') return;
-    var ev = p.event;
-    if (!ev) return;
-    // named interaction events OR data-track element events ("rf1_*")
-    if (!(TRACKED[ev] || /^rf1_/.test(ev))) return;
+    if (!p || typeof p !== 'object' || !p.eventInfo) return; // only GridBox-shaped events
     if (!(window.utag && typeof utag.link === 'function')) return; // utag not ready yet
-    var data = { tealium_event: ev };
+    var info = p.eventInfo;
     var attrs = p.attributes || p.data || {};
+    // Stable identifier: eventInfo.key (e.g. AddToCart / gb_cart_add_label) → eventName → event.
+    var data = { tealium_event: info.key || info.eventName || p.event };
+    if (info.category && !attrs.eventCategory) data.event_primary_category = info.category;
     for (var k in attrs) { if (Object.prototype.hasOwnProperty.call(attrs, k)) data[k] = attrs[k]; }
     utag.link(data);
   }
