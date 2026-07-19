@@ -1,0 +1,27 @@
+{
+  "description": "Variables the F1 Racing Store site provides directly to the Tealium data layer. These are NOT created by any extension — they arrive from the site's own code (gridbox_data, event pushes, utag_data on the page). The graph and AI agents must NOT flag reads of these as broken chains.",
+  "site_provided": [
+    "gridbox_data",
+    "tealium_event",
+    "eventCategory",
+    "eventAction",
+    "user_id",
+    "user_email",
+    "tier",
+    "consent_analytics",
+    "consent_marketing",
+    "consent_status"
+  ],
+  "notes": {
+    "gridbox_data": "Set by racing-f1/analytics.js before utag.js loads",
+    "tealium_event": "Set by GridBox Event Bridge or site-side push; also by 02-datalayer-bridge.js",
+    "eventCategory": "Flat event attribute from gb_<category>_<action> GridBox events",
+    "eventAction": "Flat event attribute from gb_<category>_<action> GridBox events",
+    "user_id": "Set by site authentication layer on login; read by 02-identity-resolver.js",
+    "user_email": "Set by site authentication layer on login; read by 02-identity-resolver.js",
+    "tier": "Set by site membership API; read by 02-identity-resolver.js",
+    "consent_analytics": "Written by 01-consent-manager.js onto utag_data in Pre Loader",
+    "consent_marketing": "Written by 01-consent-manager.js onto utag_data in Pre Loader",
+    "consent_status": "Written by 01-consent-manager.js onto utag_data in Pre Loader"
+  }
+}

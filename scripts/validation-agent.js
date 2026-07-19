@@ -6,7 +6,14 @@
  *
  * Usage: node scripts/validation-agent.js   (reads metadata/profile.json)
  */
+const path = require('path');
+const fs = require('fs');
 const { loadPolicy, loadMetadata } = require('./lib/load-policy');
+
+const SCHEMA_PATH = path.join(__dirname, '../schema/datalayer-schema.json');
+const SITE_PROVIDED = new Set(
+  JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8')).site_provided
+);
 
 /** Pure policy check — returns an array of {id, msg} violations (no I/O, testable). */
 function validate(policy, profile) {
@@ -22,8 +29,9 @@ function validate(policy, profile) {
   }));
 
   // ── ORDER-001: no backward dependency ──────────────────────────────────────
-  // Ignore externally-provided inputs (not created by any extension), e.g. gridbox_data, tealium_event.
+  // Skip site-provided variables (schema/datalayer-schema.json) — not created by any extension.
   exts.forEach(e => e.uses.forEach(v => {
+    if (SITE_PROVIDED.has(v)) return;
     if (creatorRank[v] !== undefined && creatorRank[v] > e.loadRank) {
       const producer = exts.find(x => x.creates.includes(v) && x.loadRank === creatorRank[v]);
       fail('ORDER-001', `'${e.name}' (${e.scope}) uses '${v}', created later by '${producer.name}' (${producer.scope}).`);
@@ -53,8 +61,7 @@ function validate(policy, profile) {
 
   // ── Protected: protected vars must still be produced; protected exts present ─
   policy.protected.protected_variables.forEach(v => {
-    const externalInputs = ['tealium_event']; // system var, not produced by an extension
-    if (externalInputs.includes(v)) return;
+    if (SITE_PROVIDED.has(v)) return; // site provides this, no extension needs to create it
     if (!vars[v] || vars[v].created_by.length === 0) {
       fail('PROT-001', `Protected variable '${v}' is no longer produced by any extension (renamed/removed?).`);
     }
